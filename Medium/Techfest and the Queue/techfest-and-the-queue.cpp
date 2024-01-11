@@ -7,39 +7,47 @@ using namespace std;
 
 class Solution {
 public:
-int findtheprimefactrossum(int n)
+void evaluateseive(vector<int>&seive,int b)
 {
-    
-    int c=0;
-    while(n%2==0)
+    seive[0]=0;
+    seive[1]=1;
+    for(int i=0;i<=b;i++) seive[i]=i;
+    for(int i=2;i*i<=b+1;i++)
     {
-        c++;
-        n=n/2;
-    }
-    int p=3;
-    int k=(int)sqrt(n);
-    while(n>1 && p<=k)
-    {
-        if(n%p==0 )
+        if(seive[i]==i)
         {
-            c++;
-            n=n/p;
+            for(int j=i*i;j<=b+1;j+=i)
+            {
+                if(seive[j]==j)
+                seive[j]=i;
+            }
         }
-        else 
-        p+=2;
     }
-    if(n>2) c++;
-    return c;
-    
 }
 	int sumOfPowers(int a, int b)
 	{
 	    // Code here
-	    long long ans=0;
+	    vector<int>seive(b+1,1);
+	    evaluateseive(seive,b);
+	    int ans=0;
 	    for(int i=a;i<=b;i++)
 	    {
-	        ans+=findtheprimefactrossum(i);
+	        int s=0;
+	        int m=i;
+	        while(m>1)
+	        {
+	            int p=seive[m];
+	            //cout<<"hi";
+	            s++;
+	            m/=p;
+	        }
+	      //  cout<<s<<" ";
+	        ans+=s;
 	    }
+	   // for(auto it:mpp)
+	   // {
+	   //     cout<<it.second<<" ";
+	   // }
 	    return ans;
 	}
 	
